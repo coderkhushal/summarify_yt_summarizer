@@ -1,5 +1,29 @@
+import { useState } from "react";
 
 const SearchSection = () => {
+  const [transcript, settranscript] = useState<string | null> (null)
+  const[loading, setloading] = useState<boolean>(false)
+  const [url, seturl] = useState<string>("")
+  const handlesubmit =async ()=>{
+    setloading(true)
+      const res = await fetch("https://n8n-dev.subspace.money/webhook/ytube", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "youtubeUrl":url
+        })
+      })
+      const data = await res.json()
+      console.log(data)
+      if(res.status==200){
+
+        settranscript(data.summary)
+        seturl("")
+      }
+      setloading(false)
+  }
   return (
     <div className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] bg-gradient-to-b from-indigo-50 to-white px-4">
       <div className="max-w-3xl w-full text-center mb-8">
@@ -20,12 +44,12 @@ const SearchSection = () => {
           />
           {/* <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} /> */}
         </div>
-        <button className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+        <button onClick={handlesubmit} className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md">
           Generate
         </button>
       </div>
       
-      
+    {!loading ? <div>{transcript}</div> : <div>Loading</div>}      
     </div>
   );
 };
