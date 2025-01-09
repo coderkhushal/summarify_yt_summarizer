@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useProviderLink } from '@nhost/react';
 import toast, { Toaster } from "react-hot-toast";
+import { nhost } from "../lib/nhost";
 
 const SearchSection = ({authopen}:{authopen : boolean}) => {
   const [transcript, settranscript] = useState<string | null> (null)
@@ -33,12 +33,15 @@ const SearchSection = ({authopen}:{authopen : boolean}) => {
       }
       setloading(false)
   }
-    const { google } = useProviderLink();
-  const handlesubmitauth =async ()=>{
+const isAuthenticated = nhost.auth.isAuthenticated()
+if(!isAuthenticated){
+  console.log("not authenticated")
+}
 
-    // const  result = await nhost.auth.signIn(userinfo)
-    // // console.log(userinfo)
-    // console.log(result)
+
+const handlesubmitauth =async ()=>{
+  const result = await nhost.auth.signIn(userinfo)
+  console.log(result)
   }
   return (
     <div className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] bg-gradient-to-b from-indigo-50 to-white px-4">
@@ -55,11 +58,11 @@ const SearchSection = ({authopen}:{authopen : boolean}) => {
   
   <div className="flex flex-col">
   <label htmlFor="password" className="text-white text-3xl text-start font-bold ">Password</label>
-  <input type="password" onChange={(e)=>setuserinfo({...userinfo, password:e.target.value})} name="password" className="border-2 border-black p-2 rounded-xl"/>
+  <input type="text" onChange={(e)=>setuserinfo({...userinfo, password:e.target.value})} name="password" className="border-2 border-black p-2 rounded-xl"/>
   </div>
-    <a href={google} onClick={handlesubmitauth} className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+    <button onClick={handlesubmitauth} className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md">
           Login
-        </a>
+        </button>
   
 </div>
 }
