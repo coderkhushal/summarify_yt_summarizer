@@ -1,5 +1,5 @@
 
-const Navbar = () => {
+const Navbar = ({showAuth}:{showAuth:()=>void}) => {
 
   return (
     <nav className="bg-indigo-600 shadow-lg">
@@ -11,7 +11,7 @@ const Navbar = () => {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <a href="/" className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md">Home</a>
+              <button  className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md bg-purple-900 " onClick={showAuth}>Login</button>
               
             </div>
           </div>
