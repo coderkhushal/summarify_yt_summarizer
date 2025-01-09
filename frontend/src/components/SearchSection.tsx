@@ -1,12 +1,11 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { nhost } from "../lib/nhost";
+import Authform from "./authform";
 
 const SearchSection = ({authopen}:{authopen : boolean}) => {
   const [transcript, settranscript] = useState<string | null> (null)
   const[loading, setloading] = useState<boolean>(false)
   const [url, seturl] = useState<string>("")
-  const [userinfo, setuserinfo] = useState<{email:string,password:string}>({email:"",password:""})
   const handlesubmit =async ()=>{
     setloading(true)
     console.log(url)
@@ -33,39 +32,16 @@ const SearchSection = ({authopen}:{authopen : boolean}) => {
       }
       setloading(false)
   }
-const isAuthenticated = nhost.auth.isAuthenticated()
-if(!isAuthenticated){
-  console.log("not authenticated")
-}
 
 
-const handlesubmitauth =async ()=>{
-  const result = await nhost.auth.signIn(userinfo)
-  console.log(result)
-  }
   return (
     <div className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] bg-gradient-to-b from-indigo-50 to-white px-4">
       <Toaster
   position="top-center"
   reverseOrder={false}
 /><Toaster/>
-{authopen && <div className="flex flex-col space-y-5 items-center justify-center absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 z-50">
-  <div className="flex flex-col">
-
-  <label htmlFor="email" className="text-white text-3xl text-start font-bold ">Email</label>
-  <input type="text" onChange={(e)=>setuserinfo({...userinfo, email:e.target.value})} name="email" className="border-2 border-black p-2 rounded-xl"/>
-  </div>
-  
-  <div className="flex flex-col">
-  <label htmlFor="password" className="text-white text-3xl text-start font-bold ">Password</label>
-  <input type="text" onChange={(e)=>setuserinfo({...userinfo, password:e.target.value})} name="password" className="border-2 border-black p-2 rounded-xl"/>
-  </div>
-    <button onClick={handlesubmitauth} className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md">
-          Login
-        </button>
-  
-</div>
-}
+{authopen &&
+<Authform/>}
       <div className="max-w-3xl w-full text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           Summarize youtube videos in seconds
