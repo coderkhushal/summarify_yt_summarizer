@@ -1,8 +1,6 @@
 import { nhost } from "../lib/nhost";
 
-const Navbar = ({showAuth}:{showAuth:()=>void}) => {
-  const isAuthenticated = nhost.auth.isAuthenticated()
-
+const Navbar = ({authopen, setauthopen}:{authopen:boolean,setauthopen:(x: boolean)=>void}) => {
 
   return (
     <nav className="bg-indigo-600 shadow-lg">
@@ -15,7 +13,7 @@ const Navbar = ({showAuth}:{showAuth:()=>void}) => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               
-              {!isAuthenticated ? <button  className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md bg-purple-900 " onClick={showAuth}>Login</button> : <button  className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md bg-purple-900 " onClick={()=>nhost.auth.signOut()}>Logout</button>
+              {!authopen && <button  className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md bg-purple-900 " onClick={()=>{nhost.auth.signOut();setauthopen(true)}}>Logout</button>
 }
               
             </div>

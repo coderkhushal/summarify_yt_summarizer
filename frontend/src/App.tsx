@@ -6,22 +6,25 @@ import { NhostProvider } from '@nhost/react';
 import { nhost } from './lib/nhost';
 
 function App() {
-  const [authopen , setauthopen] = useState<boolean>(false)
+  const [authopen , setauthopen] = useState<boolean>(true)  
   useEffect(()=>{
-    if(nhost.auth.isAuthenticated()){
+    handleauthentication()
+  },[nhost.auth.isAuthenticated()])
+  const handleauthentication = async()=>{
+    if(await nhost.auth.isAuthenticatedAsync()){
       setauthopen(false)
-  }},[nhost.auth.isAuthenticated()])  
-  const showAuth = ()=>{
-    setauthopen(!authopen)
+    }
+    else{
+      setauthopen(true)
+    }
   }
-
   return (
     <NhostProvider nhost={nhost}>
 
     <div className="min-h-screen bg-gray-300">
 
-      <Navbar showAuth={showAuth}/>
-      <SearchSection authopen = {authopen} />
+      <Navbar authopen={authopen} setauthopen={setauthopen} />
+      <SearchSection authopen = {authopen} setauthopen={setauthopen} />
     </div>
     </NhostProvider>
   );

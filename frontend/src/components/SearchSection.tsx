@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Authform from "./authform";
 
-const SearchSection = ({authopen}:{authopen : boolean}) => {
+const SearchSection = ({authopen, setauthopen}:{authopen : boolean,setauthopen:(x: boolean)=>void}) => {
   const [transcript, settranscript] = useState<string | null> (null)
   const[loading, setloading] = useState<boolean>(false)
   const [url, seturl] = useState<string>("")
@@ -19,7 +19,7 @@ const SearchSection = ({authopen}:{authopen : boolean}) => {
         })
       })
       const data = await res.json()
-      console.log(data)
+      
       if(res.status==200){
 
         settranscript(data.description)
@@ -33,15 +33,14 @@ const SearchSection = ({authopen}:{authopen : boolean}) => {
       setloading(false)
   }
 
-
+  
   return (
     <div className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] bg-gradient-to-b from-indigo-50 to-white px-4">
       <Toaster
   position="top-center"
   reverseOrder={false}
 /><Toaster/>
-{authopen &&
-<Authform/>}
+{authopen && <Authform setauthopen={setauthopen}/>}
       <div className="max-w-3xl w-full text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           Summarize youtube videos in seconds
