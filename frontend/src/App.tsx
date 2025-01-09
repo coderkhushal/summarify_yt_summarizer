@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import SearchSection from './components/SearchSection';
 import './index.css';
@@ -7,6 +7,10 @@ import { nhost } from './lib/nhost';
 
 function App() {
   const [authopen , setauthopen] = useState<boolean>(false)
+  useEffect(()=>{
+    if(nhost.auth.isAuthenticated()){
+      setauthopen(false)
+  }},[nhost.auth.isAuthenticated()])  
   const showAuth = ()=>{
     setauthopen(!authopen)
   }

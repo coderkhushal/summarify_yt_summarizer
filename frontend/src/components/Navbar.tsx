@@ -1,8 +1,8 @@
 import { nhost } from "../lib/nhost";
 
 const Navbar = ({showAuth}:{showAuth:()=>void}) => {
+  const isAuthenticated = nhost.auth.isAuthenticated()
 
-const isAuthenticated = nhost.auth.isAuthenticated()
 
   return (
     <nav className="bg-indigo-600 shadow-lg">
